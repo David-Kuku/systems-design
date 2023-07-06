@@ -1,0 +1,6 @@
+***server requirements
+***storage requirements
+***bandwidth requirements: (incoming and outgoing traffic estimations)
+- incoming traffic = total storage requirements/sec * 8 (to convert from bytes to bits cos bw is measured in bits ps)
+- outgoing traffic = calc total storage required to perform activities on the app
+***
