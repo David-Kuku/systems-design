@@ -1,0 +1,71 @@
+Sharding
+To divide load among multiple nodes, we need to partition the data by a phenomenon known as partitioning or sharding. In this approach, we split a large dataset into smaller chunks of data stored at different nodes on our network.
+
+The partitioning must be balanced so that each partition receives about the same amount of data. If partitioning is unbalanced, the majority of queries will fall into a few partitions. Partitions that are heavily loaded will create a system bottleneck. The efficacy of partitioning will be harmed because a significant portion of data retrieval queries will be sent to the nodes that carry the highly congested partitions. Such partitions are known as hotspots. Generally, we use the following two ways to shard the data:
+
+Vertical sharding
+Horizontal sharding
+
+
+Vertical sharding
+We can put different tables in various database instances, which might be running on a different physical server. We might break a table into multiple tables so that some columns are in one table while the rest are in the other. We should be careful if there are joins between multiple tables. We may like to keep such tables together on one shard.
+
+Often, vertical sharding is used to increase the speed of data retrieval from a table consisting of columns with very wide text or a binary large object (blob). In this case, the column with large text or a blob is split into a different table.
+
+As shown in the figure a couple paragraphs below, the Employee table is divided into two tables: a reduced Employee table and an EmployeePicture table. The EmployePicture table has just two columns, EmployeID and Picture, separated from the original table. Moreover, the primary key EmpoloyeeID of the Employee table is added in both partitioned tables. This makes the data read and write easier, and the reconstruction of the table is performed efficiently.
+
+Vertical sharding has its intricacies and is more amenable to manual partitioning, where stakeholders carefully decide how to partition data. In comparison, horizontal sharding is suitable to automate even under dynamic conditions.
+
+
+Horizontal sharding
+At times, some tables in the databases become too big and affect read/write latency. Horizontal sharding or partitioning is used to divide a table into multiple tables by splitting data row-wise, as shown in the figure in the next section. Each partition of the original table distributed over database servers is called a shard. Usually, there are two strategies available:
+
+Key-range based sharding
+Hash based sharding
+
+Key-range based sharding
+In the key-range based sharding, each partition is assigned a continuous range of keys.In the following figure, horizontal partitioning on the Invoice table is performed using the key-range based sharding with Customer_Id as the partition key. The two different colored tables represent the partitions.
+
+Advantages
+Using this method, the range-query-based scheme is easy to implement.
+Range queries can be performed using the partitioning keys, and those can be kept in partitions in sorted order.
+Disadvantages
+Range queries can’t be performed using keys other than the partitioning key.
+If keys aren’t selected properly, some nodes may have to store more data due to an uneven distribution of the traffic.
+
+
+Advantages and disadvantages of a centralized database
+
+
+Advantages
+Data maintenance, such as updating and taking backups of a centralized database, is easy.
+
+Centralized databases provide stronger consistency and ACID transactions than distributed databases.
+
+Centralized databases provide a much simpler programming model for the end programmers as compared to distributed databases.
+
+It’s more efficient for businesses to have a small amount of data to store that can reside on a single node.
+
+Disadvantages
+A centralized database can slow down, causing high latency for end users, when the number of queries per second accessing the centralized database is approaching single-node limits.
+
+A centralized database has a single point of failure. Because of this, its probability of not being accessible is much higher.
+
+Advantages and disadvantages of a distributed database
+
+
+Advantages
+It’s fast and easy to access data in a distributed database because data is retrieved from the nearest database shard or the one frequently used.
+
+Data with different levels of distribution transparency can be stored in separate places.
+
+Intensive transactions consisting of queries can be divided into multiple optimized subqueries, which can be processed in a parallel fashion.
+
+Disadvantages
+Sometimes, data is required from multiple sites, which takes more time than expected.
+
+Relations are partitioned vertically or horizontally among different nodes. Therefore, operations such as joins need to reconstruct complete relations by carefully fetching data. These operations can become much more expensive and complex.
+
+It’s difficult to maintain consistency of data across sites in the distributed database, and it requires extra measures.
+
+Updations and backups in distributed databases take time to synchronize data.
